@@ -1,0 +1,106 @@
+{    
+    "en": {
+        "Programming": [
+            "py",
+            "c", 
+            "h", 
+            "cpp", 
+            "cs", 
+            "r",
+            "fs"
+        ],
+
+        "Images": [
+            "jpg", 
+            "jpeg", 
+            "png", 
+            "ico", 
+            "gif", 
+            "tiff", 
+            "tif", 
+            "webp",
+            "raw",
+            "svg",
+            "cur",
+            "bmp"
+        ],
+
+        "Videos": [
+            "mp4", 
+            "mov", 
+            "avi",
+            "mkv",
+            "webm",
+            "wmv",
+            "mpeg",
+            "ogv"
+        ],
+
+        "Books": [
+            "pdf",
+            "epub",
+            "mobi"
+        ],
+        "Text": [
+            "txt",
+            "docx"
+        ],
+        "Web": [
+            "html",
+            "css",
+            "js",
+            "php",
+            "xml",
+            "json",
+            "asp",
+            "htm",
+            "xhtml"
+        ],
+        "Archives": [
+            "zip",
+            "rar",
+            "7z",
+            "iso",
+            "tar"
+        ],
+        "Fonts": [
+            "ttf",
+            "otf",
+            "woff",
+            "fnt",
+            "fon"
+        ],
+        "Databases": [
+            "db",
+            "sql",
+            "sqlite",
+            "csv",
+            "mbd"
+        ],
+        "3D": [
+            "stl",
+            "obj",
+            "fbx",
+            "blend",
+            "3ds"
+        ],
+        "Programs and Executables": [
+            "exe",
+            "app",
+            "bat",
+            "sys",
+            "dll",
+            "msi",
+            "dmg"
+        ],
+
+        "Audio and Music": [
+            "mp3",
+            "wav",
+            "ogg",
+            "aac"
+        ]
+
+
+    }
+}
