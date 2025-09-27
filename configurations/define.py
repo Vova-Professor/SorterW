@@ -1,14 +1,15 @@
 import pathlib
 import json
 import os
+from colorama import Fore, Style
 
 def extract(lang, path: pathlib.Path):
     """Getting file category"""
     if not lang in ("en"):
-        print(f"[ERROR!]: The current language is not currently avalible!\n{lang}")
+        print(Fore.RED + f"[ERROR!]: The current language is not currently avalible!\n{lang}")
 
     if not path.exists():
-        print(f"[ERROR!: The current path is not exists!\n{path}")
+        print(Fore.RED + f"[ERROR!: The current path is not exists!\n{path}")
         return
 
 
@@ -25,11 +26,11 @@ def look_dir(path: pathlib.Path):
     """Checking if directory has subdirectories"""
 
     if not path.exists():
-        print(f"[ERROR!: The current path is not exists!\n{path}")
+        print(Fore.RED + f"[ERROR!: The current path is not exists!\n{path}")
         return
 
     if not path.is_dir():
-        print(f"[ERROR!]: The current path is not a dir! Stopping the program...\n{path}")
+        print(Fore.RED + f"[ERROR!]: The current path is not a dir! Stopping the program...\n{path}")
         return
     
     for file in path.iterdir():
@@ -49,11 +50,11 @@ def create_dir(path: pathlib.Path):
     deep = look_dir(path)
 
     if not path.exists():
-        print(f"[ERROR!: The current path is not exists!\n{path}")
+        print(Fore.RED + f"[ERROR!: The current path is not exists!\n{path}")
         return
 
     if not path.is_dir():
-        print(f"[ERROR!]: The current path is not a dir! Stopping the program...\n{path}")
+        print(Fore.RED + f"[ERROR!]: The current path is not a dir! Stopping the program...\n{path}")
         return
 
     if deep:
@@ -62,21 +63,21 @@ def create_dir(path: pathlib.Path):
             direct = path / category
             if not os.path.exists(direct):
                 os.mkdir(direct)
-                print(f"[DEBUG]: {direct} directory has been created!")
+                print(Fore.LIGHTBLACK_EX + f"[DEBUG]: {direct} directory has been created!")
 
             os.replace(file, direct / file.name)
-        print("[DEBUG]: The files has been successfully sorted!")
+        print(Fore.GREEN + Style.BRIGHT + "[DEBUG]: The files has been successfully sorted!")
     else:
         for file in pathlib.Path(path).glob("*.*"):
             category = extract("en", file) or "Others"
             direct = path / category
             if not os.path.exists(direct):
                 os.mkdir(direct)
-                print(f"[DEBUG]: {direct} directory has been created!")
+                print(Fore.LIGHTBLACK_EX + f"[DEBUG]: {direct} directory has been created!")
 
             os.replace(file, direct / file.name)
 
-        print("[DEBUG]: The files has been successfully sorted!")
+        print(Fore.GREEN + Style.BRIGHT + "[DEBUG]: The files has been successfully sorted!")
 
     
 

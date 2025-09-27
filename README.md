@@ -12,14 +12,24 @@ Now that the program doesn't have many commands. However, I can highlight some.
 
 ` > sort` - opens a window to choose the folder in which files will be sorted. 
 
-> [!CAUTION]
-> The command below has some bugs, so it's better to use the first one.
-
 ` > sort -s=folder-path` - is the same as just `sort`, but you write the path directly in the terminal. 
 
 ` > --version` - checks current version.
 
 ` > quit` or ` > exit` - exits the program :|
+
+
+
+## ✅ Fixes
+- Fixed the issue with spaces in paths in the terminal. Example: `C:\Users\Your Name\folder`
+- The terminal became more beautiful.
+
+## 🟠 TODO
+1. Fix issues related to the label.
+2. Add more commands
+3. Improve terminal interface.
+4. Improve UX.
+5. Develop a graphical UI.
 
 ## ⚠️ Note
 This project has just started, so it is improving over time!
