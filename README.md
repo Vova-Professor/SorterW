@@ -1,4 +1,4 @@
-# SorterW - v1.0
+# SorterW - v1.1
 
 ## What is it?
 **SorterW** is an open-source project that helps you quickly sort your files.  
