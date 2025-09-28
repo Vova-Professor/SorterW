@@ -9,11 +9,17 @@ Just open `properties.types` and change or add types. It's simple because it use
 
 ## Commands
 ` > sort` → opens a window to choose the folder in which files will be sorted.  
+
 ` > sort -s=folder-path` → is the same as just `sort`, but you write the path directly in the terminal.  
+
 ` > conf` → opens `properties.types`  
+
 ` > rmempty` → opens a window to choose the folder in which empty folders will be deleted.  
+
 ` > rmempty -s=folder-path` → is the same as just `rmempty`, but you write the path directly in the terminal.  
+
 ` > --version` → shows current version.  
+
 ` > quit` or ` > exit` → exits the program :|  
 
 ---
