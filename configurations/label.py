@@ -1,4 +1,4 @@
-from colorama import Style
+from colorama import Style, Fore
 import time
 import os
 
@@ -23,12 +23,7 @@ S::::::SSSSSS:::::So:::::::::::::::o r:::::r                  tt::::::::::::::t 
 S:::::::::::::::SS  oo:::::::::::oo  r:::::r                    tt:::::::::::tt  ee:::::::::::::e   r:::::r                   W:::W           W:::W           
  SSSSSSSSSSSSSSS      ooooooooooo    rrrrrrr                      ttttttttttt      eeeeeeeeeeeeee   rrrrrrr                    WWW             WWW            
                                                                                                                                                               
-                                                                                                                                                              
-                                                                                                                                                              
-                                                                                                                                                              
-                                                                                                                                                              
-                                                                                                                                                              
-                                                                                                                                                              
+                                                                                                                                                                                                                                                                                                                
 """
 
 def boot():
@@ -39,6 +34,6 @@ def boot():
             time.sleep(0.5)
             os.system("cls")
 
-    print(f"{label}\n\n")
+    print(Fore.GREEN + f"{label}\n\n")
 
     print(Style.RESET_ALL + "Hello! You can sort any directory you want with that tool!\n")

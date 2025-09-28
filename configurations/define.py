@@ -5,13 +5,6 @@ from colorama import Fore, Style
 
 def extract(lang, path: pathlib.Path):
     """Getting file category"""
-    if not lang in ("en"):
-        print(Fore.RED + f"[ERROR!]: The current language is not currently avalible!\n{lang}")
-
-    if not path.exists():
-        print(Fore.RED + f"[ERROR!: The current path is not exists!\n{path}")
-        return
-
 
     read_text = pathlib.Path(".\\configurations\\properties\\properties.types").read_text(encoding="utf-8")
     suffix = pathlib.Path(path).suffix.strip(".")
@@ -25,14 +18,6 @@ def extract(lang, path: pathlib.Path):
 def look_dir(path: pathlib.Path):
     """Checking if directory has subdirectories"""
 
-    if not path.exists():
-        print(Fore.RED + f"[ERROR!: The current path is not exists!\n{path}")
-        return
-
-    if not path.is_dir():
-        print(Fore.RED + f"[ERROR!]: The current path is not a dir! Stopping the program...\n{path}")
-        return
-    
     for file in path.iterdir():
         if file.is_dir():
             while True:
@@ -45,17 +30,20 @@ def look_dir(path: pathlib.Path):
     return False
 
 
-def create_dir(path: pathlib.Path):
+def create_dir(path):
+
     path = pathlib.Path(path)
-    deep = look_dir(path)
 
     if not path.exists():
-        print(Fore.RED + f"[ERROR!: The current path is not exists!\n{path}")
+        print(Fore.RED + f"[ERROR!]: The current path is not exists!\n{path}\n")
         return
 
     if not path.is_dir():
-        print(Fore.RED + f"[ERROR!]: The current path is not a dir! Stopping the program...\n{path}")
+        print(Fore.RED + f"[ERROR!]: The current path is not a dir! Stopping the program...\n{path}\n")
         return
+
+    path = pathlib.Path(path)
+    deep = look_dir(path)
 
     if deep:
         for file in pathlib.Path(path).rglob("*.*"):
@@ -63,24 +51,45 @@ def create_dir(path: pathlib.Path):
             direct = path / category
             if not os.path.exists(direct):
                 os.mkdir(direct)
-                print(Fore.LIGHTBLACK_EX + f"[DEBUG]: {direct} directory has been created!")
+                print(Fore.LIGHTBLACK_EX + f"[DEBUG]: {direct} directory has been created!\n")
 
             os.replace(file, direct / file.name)
-        print(Fore.GREEN + Style.BRIGHT + "[DEBUG]: The files has been successfully sorted!")
+        print(Fore.GREEN + Style.BRIGHT + "[DEBUG]: The files has been successfully sorted!\n")
     else:
         for file in pathlib.Path(path).glob("*.*"):
             category = extract("en", file) or "Others"
             direct = path / category
             if not os.path.exists(direct):
                 os.mkdir(direct)
-                print(Fore.LIGHTBLACK_EX + f"[DEBUG]: {direct} directory has been created!")
+                print(Fore.LIGHTBLACK_EX + f"[DEBUG]: {direct} directory has been created!\n")
 
             os.replace(file, direct / file.name)
 
-        print(Fore.GREEN + Style.BRIGHT + "[DEBUG]: The files has been successfully sorted!")
+        print(Fore.GREEN + Style.BRIGHT + "[DEBUG]: The files has been successfully sorted!\n")
 
     
+def rmfolder_dir(path):
+    path = pathlib.Path(path)
 
+    if not path.exists():
+        print(Fore.RED + f"[ERROR!]: The current path is not exists!\n{path}\n")
+        return
+
+    removed = 0
+
+    for folder in path.iterdir():
+        if folder.is_dir():
+            rmfolder_dir(folder)
+
+            if not any(folder.iterdir()):
+                folder.rmdir()
+                removed += 1
+
+    if removed == 0:
+        print(Fore.CYAN + "[DEBUG]: Not empty folder.")
+    else:
+        print(Fore.CYAN + f"[DEBUG]: Successfuly removed {removed} empty folder!")
+                 
 
 
     
