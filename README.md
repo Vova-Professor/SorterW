@@ -1,4 +1,4 @@
-# SorterW - v1.2
+# SorterW - v1.3
 
 ## What is it?
 **SorterW** is an open-source project that helps you quickly sort your files.  
@@ -9,11 +9,8 @@ Just open `properties.types` and change or add types. It's simple because it use
 
 ## Commands
 ` > sort` → opens a window to choose the folder in which files will be sorted.  
-
 ` > sort -s=folder-path` → is the same as just `sort`, but you write the path directly in the terminal.  
-
 ` > conf` → opens `properties.types`  
-
 ` > rmempty` → opens a window to choose the folder in which empty folders will be deleted.  
 
 ` > rmempty -s=folder-path` → is the same as just `rmempty`, but you write the path directly in the terminal.  
@@ -25,13 +22,13 @@ Just open `properties.types` and change or add types. It's simple because it use
 ---
 
 ## ✅ Improvements
-- Added more commands `rmempty` and `conf`.  
-- Improved terminal appearance  
+- ADDED FILE SYSTEM!!
+- UX changed a little. 
 
 ## 🟠 TODO
-1. Add more commands  
+1. Add more commands  (60%)
 2. Improve terminal interface. (80%)  
-3. Improve UX  
+3. Improve UX (40%)
 4. Develop a graphical UI  
 
 ## ⚠️ Note
