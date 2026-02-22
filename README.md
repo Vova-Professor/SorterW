@@ -1,39 +1,59 @@
-# SorterW - v1.3
+# SorterW
+
+Version: v0.1.0
 
 ## What is it?
-**SorterW** is an open-source project that helps you quickly sort your files.  
-The best part is that you can configure your own file types!  
-Just open `properties.types` and change or add types. It's simple because it uses a **JSON** structure.
+SorterW is an open-source project written in **Rust** that helps you *quickly* sort your files.  
+You can configure your own file types using a JSON-based configuration.
+
+Just open `properties.types` and change or add types - it’s simple.
 
 ---
 
 ## Commands
-` > sort` → opens a window to choose the folder in which files will be sorted.  
-` > sort -s=folder-path` → is the same as just `sort`, but you write the path directly in the terminal.  
-` > conf` → opens `properties.types`  
-` > rmempty` → opens a window to choose the folder in which empty folders will be deleted.  
 
-` > rmempty -s=folder-path` → is the same as just `rmempty`, but you write the path directly in the terminal.  
-
-` > --version` → shows current version.  
-
-` > quit` or ` > exit` → exits the program :|  
-
----
+- Sort your files
+```bash
+sorterw -sort /path/to/your/folder
+```
+- Check version
+```bash
+sorterw --version
+```
 
 ## ✅ Improvements
-- ADDED FILE SYSTEM!!
-- UX changed a little. 
+- **Rewritten in Rust, speed increased.**
+
 
 ## 🟠 TODO
-1. Add more commands  (60%)
-2. Improve terminal interface. (80%)  
-3. Improve UX (40%)
-4. Develop a graphical UI  
+- Add commands, from previous commit.
+- Automatise PATH injection.
 
-## ⚠️ Note
-This project has just started, so it is improving over time!  
 
-> [!IMPORTANT]  
-> This project is for **personal and educational use only**.  
-> Any commercial use without the author's permission is strictly prohibited!
+## ❗ HOW TO USE IT??
+1. Create folder `C:\Tools`
+2. Put `sorterw.exe` and `configurations` folder there.
+3. Add it to PATH:
+    - `WIN + R`
+
+    - `sysdm.cpl`
+
+    - Tab **Advanced**
+
+    - Button **Enviroment Variables**
+
+    - click Edit
+
+    - click New
+
+    - Add:
+    ```
+    C:\Tools
+    ```
+
+    - Click **OK** and restart the _terminal_
+
+    - Check in Terminal 
+    ``` Bash
+    sorterw --version
+    ```
