@@ -1,6 +1,6 @@
 # SorterW
 
-Version: v0.1.0
+Version: v0.1.1
 
 ## What is it?
 SorterW is an open-source project written in **Rust** that helps you *quickly* sort your files.  
@@ -12,22 +12,31 @@ Just open `properties.types` and change or add types - it’s simple.
 
 ## Commands
 
+> [!TIP]
+> You can use . if you want to use current directory 
+
 - Sort your files
 ```bash
 sorterw -sort /path/to/your/folder
 ```
+
+- Remove empty folders
+```bash
+sorterw -rmempty -dir /path/to/your/folder
+```
+
 - Check version
 ```bash
 sorterw --version
 ```
 
 ## ✅ Improvements
-- **Rewritten in Rust, speed increased.**
+- **Added new command sorterw -rmempty**
 
 
 ## 🟠 TODO
 - Add commands, from previous commit.
-- Automatise PATH injection.
+- Automate PATH injection.
 
 
 ## ❗ HOW TO USE IT??
@@ -40,7 +49,7 @@ sorterw --version
 
     - Tab **Advanced**
 
-    - Button **Enviroment Variables**
+    - Button **Environment Variables**
 
     - click Edit
 
@@ -54,6 +63,6 @@ sorterw --version
     - Click **OK** and restart the _terminal_
 
     - Check in Terminal 
-    ``` Bash
+    ```bash
     sorterw --version
     ```
