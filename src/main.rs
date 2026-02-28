@@ -15,7 +15,34 @@ fn main() {
 
     let args: Vec<String> = env::args().collect();
 
-    if args.len() > 2 {
+    if args.len() > 3 {
+        let command = &args[1];
+        let for_what = &args[2];
+        let path = &args[3];
+
+        match command.as_str() {
+            "-rmempty" => {
+                match for_what.as_str() {
+                    "-dir" => {
+                        let start_time = std::time::Instant::now();
+                        empty_removal(&path, "").expect("Couldn't remove empty folders...");
+                        let dur = start_time.elapsed();
+
+                        println!("{} {:.2}s", "Removal took:".bright_cyan(), dur.as_secs_f64());
+                        
+                    }
+                    _ => {
+                        println!("{}", "Unknown command".red());
+                    }
+                }
+            }
+            _ => {
+                println!("{}", "Unknown command".red());
+            }
+        }
+    }
+
+    else if args.len() > 2 {
         let command = &args[1];
         let path = &args[2];
 
@@ -44,6 +71,7 @@ fn main() {
             }
         }
     }
+
     else {
         println!("{}\n{}", "You haven't written any argument.".red(), "Usage: https://github.com/Vova-Professor/SorterW".green());
     }
@@ -74,6 +102,43 @@ fn get_json(path: &str) -> Value {
     serde_json::from_str(&content).expect("JSON file is corrupted")
 }
 
+fn empty_removal(path: &str, relative: &str) -> std::io::Result<()> {
+    let base_path = if path == "." {
+        current_dir()?
+    } else {
+        PathBuf::from(path)
+    };
+
+    for entry in fs::read_dir(&base_path)? {
+        let entry = entry?;
+        let dir_path = entry.path();
+
+        if !dir_path.is_dir() {
+            continue;
+        }
+        let folder_name = dir_path.file_name().unwrap().to_str().unwrap();
+
+        let rel = if relative.is_empty() {
+            folder_name.to_string()
+        } else {
+            format!("{}/{}", relative, folder_name)
+        };
+
+        println!("{} {}", "Found folder: ".truecolor(169, 169, 169), rel);
+
+        empty_removal(dir_path.to_str().unwrap(), &rel)?;
+
+        let is_empty = fs::read_dir(&dir_path)?.next().is_none();
+
+        if is_empty {
+            fs::remove_dir_all(&dir_path)?;
+            println!("{} {}", rel, "successfully removed!".bright_magenta());
+        }
+    }
+
+    Ok(())
+}
+
 
 
 fn sort(path: &str, ext_map: &HashMap<String, String>) -> std::io::Result<()> {
@@ -97,7 +162,7 @@ fn sort(path: &str, ext_map: &HashMap<String, String>) -> std::io::Result<()> {
 
         let ext = ext.to_lowercase();
 
-        println!("{} {:?}", "Found file:".black(), file_path);
+        println!("{} {:?}", "Found file:".truecolor(169, 169, 169), file_path);
 
         if let Some(dir_name) = ext_map.get(&ext) {
             let target_dir = base_path.join(dir_name);
