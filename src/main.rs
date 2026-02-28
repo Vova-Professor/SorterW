@@ -2,7 +2,11 @@ use std::collections::HashMap;
 use std::env::current_dir;
 use std::fs;
 use std::env;
+use std::fs::remove_file;
+use std::path::Path;
+use chacha20poly1305::aead::rand_core::RngCore;
 use std::path::PathBuf;
+use chacha20poly1305::{aead::{Aead, KeyInit, OsRng}, ChaCha20Poly1305, Nonce};
 use serde_json::Value;
 use colored::*;
 
@@ -36,6 +40,37 @@ fn main() {
                     }
                 }
             }
+            "-encrypt" => {
+                let path = &args[2];
+                let key_str = &args[3];
+
+                let key_bytes = if key_str == "-keygen" {
+                    let key = ChaCha20Poly1305::generate_key(&mut OsRng);
+
+                    println!("{} {}", "Generated key:".bright_cyan(), hex::encode(&key));
+                    println!("{}", "Save this key! Without it you can't decrypt!".red());
+                    key
+                } else {
+                    let bytes = hex::decode(key_str).expect("Invalid key format!");
+                    *chacha20poly1305::Key::from_slice(&bytes)
+                };
+
+                let cipher = ChaCha20Poly1305::new(&key_bytes);
+
+                encrypt(Path::new(path), &cipher).expect("Encryption failed!");
+            }
+            "-decrypt" => {
+                let path = &args[2];
+                let key_str = &args[3];
+
+                let bytes = hex::decode(key_str).expect("Invalid key format!");
+
+                let key_bytes = *chacha20poly1305::Key::from_slice(&bytes);
+
+                let cipher = ChaCha20Poly1305::new(&key_bytes);
+
+                decrypt(Path::new(path), &cipher).expect("Decryption failed!");
+            }
             _ => {
                 println!("{}", "Unknown command".red());
             }
@@ -63,6 +98,11 @@ fn main() {
         let command = &args[1];
 
         match command.as_str() {
+            "-keygen" => {
+                let key = ChaCha20Poly1305::generate_key(&mut OsRng);
+                println!("{} {}", "Generated key:".bright_cyan(), hex::encode(&key));
+                println!("{}", "Save this key! Without it you can't decrypt!".red());
+            }
             "--version" => {
                 println!("{}", env!("CARGO_PKG_VERSION"));
             }
@@ -181,4 +221,96 @@ fn sort(path: &str, ext_map: &HashMap<String, String>) -> std::io::Result<()> {
 
     Ok(())
 
+}
+
+
+fn encrypt_file(cipher: &ChaCha20Poly1305, path: &Path) -> Result<(), Box<dyn std::error::Error>> {
+    let ext = path.extension().and_then(|e| e.to_str()).unwrap_or("");
+
+    if ext == "xyz" || ext == "xyzext" {
+        return Ok(());
+    }
+    
+    let data = fs::read(path)?;
+
+    let mut nonce_bytes = [0u8; 12];
+    OsRng.fill_bytes(&mut nonce_bytes);
+
+    let nonce = Nonce::from(nonce_bytes);
+
+    let encrypted = cipher.encrypt(&nonce, data.as_ref())
+        .map_err(|e| format!("Encrypting error {e}..."))?;
+
+    let mut output = nonce_bytes.to_vec();
+    output.extend_from_slice(&encrypted);
+
+    let new_path = path.with_extension("xyz");
+    fs::write(&new_path, output)?;
+
+    let ext = path.extension().and_then(|e| e.to_str()).unwrap_or("");
+    let ext_path = path.with_extension("xyzext");
+    fs::write(&ext_path, ext)?;
+
+    remove_file(path)?;
+
+    println!("{} {:?}", "Encrypted: ".bright_magenta(), new_path);
+    Ok(())
+}
+
+fn decrypt_file(cipher: &ChaCha20Poly1305, path: &Path) -> Result<(), Box<dyn std::error::Error>> {
+    if path.extension().and_then(|e| e.to_str()) != Some("xyz") {
+        return Ok(());
+    }
+    
+    let data = fs::read(path)?;
+
+    let (nonce_bytes, encrypted) = data.split_at(12);
+
+    let nonce = Nonce::from_slice(nonce_bytes);
+
+    let decrypted = cipher.decrypt(nonce, encrypted)
+        .map_err(|e| format!("Decryption error {e}... Maybe wrong key?"))?;
+
+    let ext_path = path.with_extension("xyzext");
+    let ext = fs::read_to_string(&ext_path).unwrap_or("bin".to_string());
+    let ext = ext.trim();
+
+    let new_path = path.with_extension(ext);
+    fs::write(&new_path, decrypted)?;
+
+    remove_file(path)?;
+    remove_file(&ext_path)?;
+
+    println!("{} {:?}", "Decrypted: ".bright_magenta(), new_path);
+    Ok(())
+}
+
+fn decrypt(path: &Path, cipher: &ChaCha20Poly1305) -> Result<(), Box<dyn std::error::Error>> {
+    if path.is_file() {
+        decrypt_file(cipher, path)?;
+    }
+    else if path.is_dir() {
+         for entry in fs::read_dir(path)? {
+            let entry = entry?;
+            let entry_path = entry.path();
+            decrypt(&entry_path, cipher)?;
+         }
+    }
+
+    Ok(())
+}
+
+fn encrypt(path: &Path, cipher: &ChaCha20Poly1305) -> Result<(), Box<dyn std::error::Error>> {
+    if path.is_file() {
+        encrypt_file(cipher, path)?;
+    }
+    else if path.is_dir() {
+         for entry in fs::read_dir(path)? {
+            let entry = entry?;
+            let entry_path = entry.path();
+            encrypt(&entry_path, cipher)?;
+         }
+    }
+
+    Ok(())
 }

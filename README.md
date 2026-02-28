@@ -1,6 +1,6 @@
 # SorterW
 
-Version: v0.1.1
+Version: v0.1.2
 
 ## What is it?
 SorterW is an open-source project written in **Rust** that helps you *quickly* sort your files.  
@@ -25,13 +25,30 @@ sorterw -sort /path/to/your/folder
 sorterw -rmempty -dir /path/to/your/folder
 ```
 
+- Create master key
+```bash
+sorterw -keygen
+```
+
+- Encrypt encrypted file
+```bash
+sorterw -encrypt /path/to/your/folder/or/file.file KEY
+```
+(You can use -keygen instead of KEY if you don't have master key yet)
+
+- Decrypt encrypted file
+```bash
+sorterw -decrypt /path/to/your/folder/or/file.file KEY
+```
+(You can use -keygen instead of KEY if you don't have master key yet)
+
 - Check version
 ```bash
 sorterw --version
 ```
 
 ## ✅ Improvements
-- **Added new command sorterw -rmempty**
+- **Added new commands for encryption!**
 
 
 ## 🟠 TODO
