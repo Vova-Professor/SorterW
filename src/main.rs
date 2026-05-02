@@ -9,7 +9,6 @@ use std::path::PathBuf;
 use chacha20poly1305::{aead::{Aead, KeyInit, OsRng}, ChaCha20Poly1305, Nonce};
 use serde_json::Value;
 use colored::*;
-use argon2::{Argon2, password_hash::{SaltString, PasswordHasher}};
 
 
 fn main() {
