@@ -9,6 +9,7 @@ use std::path::PathBuf;
 use chacha20poly1305::{aead::{Aead, KeyInit, OsRng}, ChaCha20Poly1305, Nonce};
 use serde_json::Value;
 use colored::*;
+use argon2::{Argon2, password_hash::{SaltString, PasswordHasher}};
 
 
 fn main() {
@@ -116,6 +117,9 @@ fn main() {
         println!("{}\n{}", "You haven't written any argument.".red(), "Usage: https://github.com/Vova-Professor/SorterW".green());
     }
 }
+
+
+
 
 
 fn build_extension_map(json_data: &Value) -> HashMap<String, String> {

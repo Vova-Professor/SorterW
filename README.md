@@ -68,6 +68,8 @@ sorterw --version
 
     - Button **Environment Variables**
 
+    - Choose Path
+
     - click Edit
 
     - click New
