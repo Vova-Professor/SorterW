@@ -10,6 +10,37 @@ Just open `properties.types` and change or add types - it’s simple.
 
 ---
 
+
+## ❗ HOW TO USE IT??
+1. Create folder `C:\Tools`
+2. Put `sorterw.exe` and `configurations` folder there.
+3. Add it to PATH:
+    - `WIN + R`
+
+    - `sysdm.cpl`
+
+    - Tab **Advanced**
+
+    - Button **Environment Variables**
+
+    - Choose Path
+
+    - click Edit
+
+    - click New
+
+    - Add:
+    ```
+    C:\Tools
+    ```
+
+    - Click **OK** and restart the _terminal_
+
+    - Check in Terminal 
+    ```bash
+    sorterw --version
+    ```
+
 ## Commands
 
 > [!TIP]
@@ -54,34 +85,3 @@ sorterw --version
 ## 🟠 TODO
 - Add commands, from previous commit.
 - Automate PATH injection.
-
-
-## ❗ HOW TO USE IT??
-1. Create folder `C:\Tools`
-2. Put `sorterw.exe` and `configurations` folder there.
-3. Add it to PATH:
-    - `WIN + R`
-
-    - `sysdm.cpl`
-
-    - Tab **Advanced**
-
-    - Button **Environment Variables**
-
-    - Choose Path
-
-    - click Edit
-
-    - click New
-
-    - Add:
-    ```
-    C:\Tools
-    ```
-
-    - Click **OK** and restart the _terminal_
-
-    - Check in Terminal 
-    ```bash
-    sorterw --version
-    ```
