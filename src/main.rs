@@ -12,8 +12,8 @@ use colored::*;
 
 
 fn main() {
-    let types_path = "C:/Tools/configurations/properties/properties.types";
-    let json_data = get_json(types_path);
+    let types_path = get_types_path();
+    let json_data = get_json(types_path.to_str().unwrap());
 
     let ext_map = build_extension_map(&json_data);
 
@@ -118,7 +118,14 @@ fn main() {
 }
 
 
+fn get_types_path() -> PathBuf {
+    if let Ok(p) = env::var("SORTERW_CONFIG") {
+        return PathBuf::from(p);
+    }
 
+    let base = dirs::config_dir().expect("Couldn't find config directory...");
+    base.join("SorterW").join("properties.types")
+}
 
 
 fn build_extension_map(json_data: &Value) -> HashMap<String, String> {
@@ -140,7 +147,7 @@ fn build_extension_map(json_data: &Value) -> HashMap<String, String> {
 
 
 fn get_json(path: &str) -> Value {
-    let content = fs::read_to_string(path).expect("Check if properties.types is in ./configurations/properties/");
+    let content = fs::read_to_string(path).expect("Config not found! Place properties.types in your platform config directory, or set SORTERW_CONFIG.");
 
     serde_json::from_str(&content).expect("JSON file is corrupted")
 }
